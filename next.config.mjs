@@ -1,29 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            {
-                protocol: "https",
-                hostname: "res.cloudinary.com",
-                pathname: "/dnnfhyeuv/**",
-            },
-        ],
-    },
+    // All imagery is served from `public/`, so no `images.remotePatterns` entry
+    // is needed. Add one here if a remote image host is ever introduced.
     experimental: {
-        optimizePackageImports: [
-            "@untitledui/icons",
-            "react-aria-components",
-            "react-aria",
-            "@react-aria/utils",
-            "@react-stately/utils",
-            "recharts",
-            "shiki",
-            "@tiptap/core",
-            "@tiptap/react",
-            "@tiptap/starter-kit",
-            "@tiptap/pm",
-            "motion",
-        ],
+        // Only list packages that are actually installed and imported — a stale
+        // entry here is silently ignored, which hides the fact that it is dead.
+        optimizePackageImports: ["@untitledui/icons", "react-aria-components"],
     },
 };
 

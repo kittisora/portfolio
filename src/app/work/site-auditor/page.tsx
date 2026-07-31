@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { SiteAuditorPage } from "./site-auditor-page";
 
 const OG_IMAGE = "/siteautitor/report-perf.png";
@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/site-auditor" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/site-auditor",
         title: "Site Auditor - Case Study · Kittipong Sorasuchart",
         description:
             "An AI-powered website audit platform that crawls entire sites and scores SEO, performance, security, UX, AI visibility, and brand health with LLM-driven recommendations.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "Site Auditor" }],
+        images: [{ url: OG_IMAGE, width: 1879, height: 905, alt: "Site Auditor" }],
     },
     twitter: {
         card: "summary_large_image",

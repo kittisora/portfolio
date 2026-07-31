@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { BigRentalsPage } from "./big-rentals-page";
 
 const OG_IMAGE = "/bigrentals/hero.png";
@@ -20,11 +20,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/big-rentals" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/big-rentals",
         title: "BigRentals - Case Study · Kittipong Sorasuchart",
         description:
             "A trailer and equipment rental marketplace with location-aware search, availability, and programmatically generated SEO landing pages across hundreds of city-and-equipment combinations.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "BigRentals" }],
+        images: [{ url: OG_IMAGE, width: 1898, height: 1079, alt: "BigRentals" }],
     },
     twitter: {
         card: "summary_large_image",

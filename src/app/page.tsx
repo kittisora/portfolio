@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { personJsonLd, websiteJsonLd } from "@/lib/site";
+import { SITE_NAME, personJsonLd, websiteJsonLd } from "@/lib/site";
 import { HomePage } from "./home-page";
 
 export const metadata: Metadata = {
@@ -11,18 +11,19 @@ export const metadata: Metadata = {
     },
     openGraph: {
         type: "website",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/",
         title: "Kittipong Sorasuchart - AI Specialist & DevOps Engineer",
         description:
             "AI Specialist and DevOps Engineer building intelligent systems with reliable, scalable infrastructure.",
-        images: [{ url: "/photo.png", width: 1200, height: 630, alt: "Kittipong Sorasuchart" }],
+        // Image inherited from the generated `opengraph-image.tsx`.
     },
     twitter: {
         card: "summary_large_image",
         title: "Kittipong Sorasuchart - AI Specialist & DevOps Engineer",
         description:
             "AI Specialist and DevOps Engineer building intelligent systems with reliable, scalable infrastructure.",
-        images: ["/photo.png"],
     },
 };
 

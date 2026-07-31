@@ -10,10 +10,22 @@ export const AUTHOR_SAME_AS = [
     "https://contra.com/kittipong",
 ];
 
+/**
+ * Case study routes under `/work`. Single source of truth for the sitemap —
+ * keep in sync with the directories in `src/app/work/`.
+ */
+export const CASE_STUDY_SLUGS = [
+    "server-monitor",
+    "site-auditor",
+    "unique-leverage",
+    "arrow-market",
+    "ogedge",
+    "big-rentals",
+] as const;
+
 /** Builds an absolute URL from a site-relative path. */
 export function absoluteUrl(path: string): string {
     return path.startsWith("http") ? path : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
-    
 }
 
 /** schema.org Person used for the homepage rich result (photo in search). */

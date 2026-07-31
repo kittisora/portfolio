@@ -13,7 +13,7 @@ export function PrivacyPolicyPage() {
 
     return (
         <div ref={ref} className="bg-primary text-primary">
-            <main className="pt-36 pb-24 md:pt-44">
+            <div className="pt-36 pb-24 md:pt-44">
                 <div className="mx-auto w-full max-w-container px-4 md:px-8">
                     <div className="mx-auto max-w-3xl">
                         {/* Hero */}
@@ -295,7 +295,7 @@ export function PrivacyPolicyPage() {
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     );
 }

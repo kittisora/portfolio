@@ -23,7 +23,8 @@ export default function NotFound() {
                         <Button color="secondary" size="xl" iconLeading={ArrowLeft} onClick={() => router.back()}>
                             Go back
                         </Button>
-                        <Button size="xl" onClick={() => router.back()}>
+                        {/* A 404 is usually reached directly, so "back" would leave the site — link home instead. */}
+                        <Button size="xl" href="/">
                             Take me home
                         </Button>
                     </div>

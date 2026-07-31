@@ -1,15 +1,13 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { Moon01, Sun } from "@untitledui/icons";
+import { useMounted } from "@/hooks/use-mounted";
 import { cx } from "@/utils/cx";
 
 export function ThemeToggle({ className }: { className?: string }) {
     const { resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => setMounted(true), []);
+    const mounted = useMounted();
 
     if (!mounted) {
         return (
@@ -37,9 +35,7 @@ export function ThemeToggle({ className }: { className?: string }) {
 
 export function ThemeToggleFab() {
     const { resolvedTheme, setTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => setMounted(true), []);
+    const mounted = useMounted();
 
     if (!mounted) return null;
 

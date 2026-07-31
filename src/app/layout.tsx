@@ -69,21 +69,14 @@ export const metadata: Metadata = {
         title: "Kittipong Sorasuchart - AI Specialist & DevOps Engineer",
         description:
             "AI Specialist and DevOps Engineer building intelligent systems with reliable, scalable infrastructure.",
-        images: [
-            {
-                url: "/photo.png",
-                width: 1200,
-                height: 630,
-                alt: "Kittipong Sorasuchart",
-            },
-        ],
+        // Image comes from `opengraph-image.tsx` (generated 1200x630) — do not
+        // hardcode one here, or the generated card is overridden site-wide.
     },
     twitter: {
         card: "summary_large_image",
         title: "Kittipong Sorasuchart - AI Specialist & DevOps Engineer",
         description:
             "AI Specialist and DevOps Engineer building intelligent systems with reliable, scalable infrastructure.",
-        images: ["/photo.png"],
     },
     icons: {
         icon: [
@@ -114,8 +107,15 @@ export default function RootLayout({
             >
                 <RouteProvider>
                     <Theme>
+                        <a
+                            href="#main"
+                            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-brand-solid focus:px-4 focus:py-2 focus:text-white"
+                        >
+                            Skip to content
+                        </a>
                         <PortfolioHeader />
-                        {children}
+                        {/* Single `main` landmark for every route — page components must not add their own. */}
+                        <main id="main">{children}</main>
                         <Footer />
                     </Theme>
                 </RouteProvider>

@@ -87,7 +87,7 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
                             <Button
                                 color="primary"
                                 size="md"
-                                href="#contact"
+                                href="/#contact"
                             >
                                 Get in Touch
                             </Button>
@@ -177,7 +177,7 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
                         }}
                     >
                         <Link
-                            href="#contact"
+                            href="/#contact"
                             onClick={closeMobile}
                             className="flex w-full items-center justify-center rounded-lg bg-brand-solid px-4 py-3 text-base font-semibold text-white shadow-xs transition duration-100 ease-linear hover:bg-brand-solid_hover"
                         >

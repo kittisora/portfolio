@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { ServerMonitorPage } from "./server-monitor-page";
 
 const OG_IMAGE = "/severmonitor/hero.webp";
@@ -22,11 +22,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/server-monitor" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/server-monitor",
         title: "Cloud Monitoring Dashboard - Case Study · Kittipong Sorasuchart",
         description:
             "A centralized Prometheus + Grafana + Node Exporter observability stack monitoring CPU, memory, disk, and uptime across multi-cloud servers.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "Cloud Monitoring Dashboard" }],
+        images: [{ url: OG_IMAGE, width: 1672, height: 941, alt: "Cloud Monitoring Dashboard" }],
     },
     twitter: {
         card: "summary_large_image",
