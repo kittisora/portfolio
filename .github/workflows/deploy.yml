@@ -1,0 +1,107 @@
+name: Deploy to production
+
+on:
+    push:
+        branches: [master]
+    workflow_dispatch:
+
+# Never let two deploys race each other onto the server. Queue them instead of
+# cancelling, so the last push always ends up being what is live.
+concurrency:
+    group: production-deploy
+    cancel-in-progress: false
+
+permissions:
+    contents: read
+
+jobs:
+    validate:
+        name: Lint, typecheck & build
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Lint
+              run: npm run lint
+
+            - name: Typecheck
+              run: npm run typecheck
+
+            - name: Build
+              run: npm run build
+
+    deploy:
+        name: Deploy to kittipong.org
+        needs: validate
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        environment:
+            name: production
+            url: https://kittipong.org
+        steps:
+            - name: Verify deploy secrets are configured
+              env:
+                  DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+                  DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+                  DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+              run: |
+                  missing=""
+                  [ -n "$DEPLOY_HOST" ]    || missing="$missing DEPLOY_HOST"
+                  [ -n "$DEPLOY_USER" ]    || missing="$missing DEPLOY_USER"
+                  [ -n "$DEPLOY_SSH_KEY" ] || missing="$missing DEPLOY_SSH_KEY"
+                  if [ -n "$missing" ]; then
+                      echo "::error::Missing repository secrets:$missing"
+                      echo "Add them under Settings → Secrets and variables → Actions."
+                      exit 1
+                  fi
+
+            - name: Configure SSH
+              env:
+                  DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+                  DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+                  DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+              run: |
+                  mkdir -p ~/.ssh
+                  chmod 700 ~/.ssh
+                  printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+                  chmod 600 ~/.ssh/deploy_key
+                  ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+            - name: Deploy over SSH
+              env:
+                  DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+                  DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+                  DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+              # The deploy key is pinned to a forced command on the server
+              # (/usr/local/bin/deploy-portfolio), so the argument below is
+              # ignored — the key cannot be used to run anything else.
+              run: |
+                  ssh -i ~/.ssh/deploy_key \
+                      -p "$DEPLOY_PORT" \
+                      -o BatchMode=yes \
+                      -o ConnectTimeout=15 \
+                      "$DEPLOY_USER@$DEPLOY_HOST" deploy
+
+            - name: Verify the live site
+              run: |
+                  for i in $(seq 1 10); do
+                      code="$(curl -sS -o /dev/null -w '%{http_code}' https://kittipong.org/ || echo 000)"
+                      echo "attempt $i: HTTP $code"
+                      [ "$code" = "200" ] && exit 0
+                      sleep 5
+                  done
+                  echo "::error::https://kittipong.org/ did not return 200 after deploy"
+                  exit 1
+
+            - name: Clean up key
+              if: always()
+              run: rm -f ~/.ssh/deploy_key

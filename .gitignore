@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# rollback copy of the previous build, created by scripts/deploy.sh
+/.next.prev/
+
 # production
 /build
 
