@@ -328,3 +328,38 @@ div[id="hero"] {
         opacity: 1;
     }
 }
+
+/* ---------------------------------------------------------------------------
+   Reduced motion (WCAG 2.3.3)
+   Scroll reveals, decorative spinners, smooth scrolling and the work-card view
+   transition are all motion-heavy. Honour the user's OS-level preference:
+   content must still be fully visible, so `.fade-up` resolves to its final
+   state rather than staying at opacity 0.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Reveal-on-scroll content must not depend on a transition to become visible. */
+    .fade-up,
+    .fade-up.visible {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    ::view-transition-old(work-card),
+    ::view-transition-new(work-card) {
+        animation: none !important;
+    }
+}

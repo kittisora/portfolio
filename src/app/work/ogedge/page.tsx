@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { OgedgePage } from "./ogedge-page";
 
 const OG_IMAGE = "/ogedge/hero.png";
@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/ogedge" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/ogedge",
         title: "OGEdge - Case Study · Kittipong Sorasuchart",
         description:
             "A gaming services marketplace for boosting, coaching, and leveling across 19+ titles - dynamic catalogs, multi-currency checkout, and live order tracking.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "OGEdge" }],
+        images: [{ url: OG_IMAGE, width: 1614, height: 891, alt: "OGEdge" }],
     },
     twitter: {
         card: "summary_large_image",

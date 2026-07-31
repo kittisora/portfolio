@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { ArrowMarketPage } from "./arrow-market-page";
 
 const OG_IMAGE = "/arrowmarket/position-builder.png";
@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/arrow-market" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/arrow-market",
         title: "Arrow Markets - Case Study · Kittipong Sorasuchart",
         description:
             "A hybrid on-chain options trading interface on Avalanche - real-time options chains, payoff visualizations, and a strategy-based position builder with centralized-exchange UX.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "Arrow Markets" }],
+        images: [{ url: OG_IMAGE, width: 1887, height: 1020, alt: "Arrow Markets" }],
     },
     twitter: {
         card: "summary_large_image",

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { caseStudyJsonLd } from "@/lib/site";
+import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { UniqueLeveragePage } from "./unique-leverage-page";
 
-const OG_IMAGE = "/uniqueleverage/hero.jpg";
+// hero.jpg is a 1920x2226 portrait — social cards crop it badly.
+// docs.png is the widest referenced asset for this case study.
+const OG_IMAGE = "/uniqueleverage/docs.png";
 
 export const metadata: Metadata = {
     title: "Unique Leverage - Case Study",
@@ -21,11 +23,13 @@ export const metadata: Metadata = {
     alternates: { canonical: "/work/unique-leverage" },
     openGraph: {
         type: "article",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/work/unique-leverage",
         title: "Unique Leverage - Case Study · Kittipong Sorasuchart",
         description:
             "An AI-powered marketing automation platform for car dealers - automated Facebook Marketplace posting, per-vehicle AI ad creative, and VIN-level lead attribution.",
-        images: [{ url: OG_IMAGE, width: 1200, height: 675, alt: "Unique Leverage" }],
+        images: [{ url: OG_IMAGE, width: 1572, height: 959, alt: "Unique Leverage" }],
     },
     twitter: {
         card: "summary_large_image",

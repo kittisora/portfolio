@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME } from "@/lib/site";
 import { PrivacyPolicyPage } from "./privacy-policy-page";
 
 export const metadata: Metadata = {
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
     alternates: { canonical: "/privacy-policy" },
     openGraph: {
         type: "website",
+        locale: "en_US",
+        siteName: SITE_NAME,
         url: "/privacy-policy",
         title: "Privacy Policy · Kittipong Sorasuchart",
         description:

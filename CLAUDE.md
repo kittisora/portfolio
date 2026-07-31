@@ -1,18 +1,30 @@
 ## Project Overview
 
-This is an **Untitled UI React** component library project built with:
+This is the personal portfolio site for Kittipong Sorasuchart (kittipong.org), built on the
+**Untitled UI React** component library:
 
+- **Next.js 16** with the App Router (Turbopack, fully static output)
 - **React 19** with TypeScript
 - **Tailwind CSS v4.2** for styling
 - **React Aria Components** as the foundation for accessibility and behavior
+
+This file covers conventions. For how the *site* is put together — routes, SEO
+single-source-of-truth, social cards, adding a case study — see [README.md](README.md).
+
+**The repo is pruned to what the site actually uses.** It began as the Untitled UI Next.js
+starter kit; every file and dependency not reachable from a route has been removed (457
+source files → 48, 37 runtime deps → 13). Only `src/components/base/{badges,buttons}` and
+`src/components/foundations/` remain vendored. When you need another Untitled UI component,
+copy in just that component rather than restoring the kit, and do not add a dependency
+without an import to justify it.
 
 ## Key Architecture Principles
 
 ### Component Foundation
 
-- All components are built on **React Aria Components** for consistent accessibility and behavior
-- Components follow the compound component pattern with sub-components (e.g., `Select.Item`, `Select.ComboBox`)
+- Components are built on **React Aria Components** for consistent accessibility and behavior
 - TypeScript is used throughout for type safety
+- Every file under `src/` must be reachable from a route; nothing is kept "just in case"
 
 ### Import Naming Convention
 
@@ -60,9 +72,12 @@ This applies to all file types including:
 ## Development Commands
 
 ```bash
-# Development
-npm run dev               # Start Vite development server (http://localhost:5173)
-npm run build            # Build for production (TypeScript compilation + Vite build)
+npm run dev         # Next.js dev server with Turbopack (http://localhost:3000)
+npm run build       # Production build (Next.js + TypeScript compilation)
+npm start           # Serve the production build
+npm run typecheck   # tsc --noEmit
+npm run lint        # ESLint (flat config)
+npm run format      # Prettier write
 ```
 
 ## Project Structure
@@ -71,64 +86,16 @@ npm run build            # Build for production (TypeScript compilation + Vite b
 
 ```
 src/
+├── app/                   # Next.js App Router routes (NOT a `pages/` directory)
 ├── components/
-│   ├── base/              # Core UI components (Button, Input, Select, etc.)
-│   ├── application/       # Complex application components
-│   ├── foundations/       # Design tokens and foundational elements
-│   ├── marketing/         # Marketing-specific components
-│   └── shared-assets/     # Reusable assets and illustrations
-├── hooks/                 # Custom React hooks
-├── pages/                 # Route components
-├── providers/             # React context providers
-├── styles/               # Global styles and theme
-├── types/                # TypeScript type definitions
-└── utils/                # Utility functions
-```
-
-### Component Patterns
-
-#### 1. Base Components
-
-Located in `components/base/`, these are the building blocks:
-
-- `Button` - All button variants with loading states
-- `Input` - Text inputs with validation and icons
-- `Select` - Dropdown selections with complex options
-- `Checkbox`, `Radio`, `Toggle` - Form controls
-- `Avatar`, `Badge`, `Tooltip` - Display components
-
-#### 2. Application Components
-
-Located in `components/application/`, these are complex UI patterns:
-
-- `DatePicker` - Calendar-based date selection
-- `Modal` - Overlay dialogs
-- `Pagination` - Data navigation
-- `Table` - Data display with sorting
-- `Tabs` - Content organization
-
-#### 3. Styling Architecture
-
-- Uses a `sortCx` utility for organized style objects
-- Follows size variants: `sm`, `md`, `lg`, `xl`
-- Color variants: `primary`, `secondary`, `tertiary`, `destructive`, etc.
-- Responsive and state-aware styling with Tailwind
-
-#### 4. Component Props Pattern
-
-```typescript
-interface CommonProps {
-    size?: "sm" | "md" | "lg";
-    isDisabled?: boolean;
-    isLoading?: boolean;
-    // ... other common props
-}
-
-interface ButtonProps extends CommonProps, HTMLButtonElement {
-    color?: "primary" | "secondary" | "tertiary";
-    iconLeading?: FC | ReactNode;
-    iconTrailing?: FC | ReactNode;
-}
+│   ├── portfolio/         # Site-specific: header, footer, theme toggle, hero grid
+│   ├── base/              # Untitled UI primitives in use: badges, buttons
+│   └── foundations/       # Untitled UI: dot icon, social icons
+├── hooks/                 # use-fade-up, use-mounted
+├── lib/                   # Site config + schema.org builders (site.ts)
+├── providers/             # React context providers (theme, router)
+├── styles/                # Global styles and theme
+└── utils/                 # cx(), view-transition navigation, helpers
 ```
 
 ## Styling Guidelines
@@ -190,12 +157,6 @@ export const styles = sortCx({
 
 ## Icon Usage
 
-### Available Libraries
-
-- `@untitledui/icons` - 1,100+ line-style icons (free)
-- `@untitledui/file-icons` - File type icons
-- `@untitledui-pro/icons` - 4,600+ icons in 4 styles (Requires PRO access)
-
 ### Import & Usage
 
 ```typescript
@@ -205,8 +166,8 @@ import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
 // Component props - pass as reference
 <Button iconLeading={ChevronDown}>Options</Button>
 
-// Standalone usage
-<Home01 className="size-5 text-gray-600" />
+// Standalone usage — semantic tokens only, never raw palette classes
+<Home01 className="size-5 text-tertiary" />
 
 // As JSX element - MUST include data-icon
 <Button iconLeading={<ChevronDown data-icon className="size-4" />}>Options</Button>
@@ -228,33 +189,7 @@ import { Home01, Settings01, ChevronDown } from "@untitledui/icons";
 <Home01 className="size-5" aria-hidden="true" />
 ```
 
-### PRO Icon Styles
-
-```typescript
-import { Home01 } from "@untitledui-pro/icons";
-// Line
-import { Home01 } from "@untitledui-pro/icons/duocolor";
-import { Home01 } from "@untitledui-pro/icons/duotone";
-import { Home01 } from "@untitledui-pro/icons/solid";
-```
-
-## Form Handling
-
-### Form Components
-
-- `Input` - Text inputs with validation
-- `Select` - Dropdown selections
-- `Checkbox`, `Radio` - Selection controls
-- `Textarea` - Multi-line text input
-- `Form` - Form wrapper with validation
-
 ## Animation and Interactions
-
-### Animation Libraries
-
-- `motion` (Framer Motion) for complex animations
-- `tailwindcss-animate` for utility-based animations
-- CSS transitions for simple state changes
 
 ### CSS Transitions
 
@@ -268,8 +203,7 @@ This provides a snappy 100ms linear transition that feels responsive without bei
 
 ### Loading States
 
-- Components support `isLoading` prop
-- Built-in loading spinners
+- `Button` supports `isLoading` (and `showTextWhileLoading`) with a built-in spinner
 - Proper disabled states during loading
 
 ### Disabled states
@@ -286,23 +220,30 @@ All components use `opacity-50` for disabled states instead of individual disabl
 
 ## Common Patterns
 
-### Compound Components
-
-```typescript
-const Select = SelectComponent as typeof SelectComponent & {
-    Item: typeof SelectItem;
-    ComboBox: typeof ComboBox;
-};
-Select.Item = SelectItem;
-Select.ComboBox = ComboBox;
-```
-
 ### Conditional Rendering
 
 ```typescript
-{label && <Label isRequired={isRequired}>{label}</Label>}
-{hint && <HintText isInvalid={isInvalid}>{hint}</HintText>}
+{badge && <Badge color="brand">{badge}</Badge>}
+{project.videoSrc ? <video src={project.videoSrc} /> : <Image src={project.image} alt={project.alt} />}
 ```
+
+### Scroll reveals
+
+Content that animates in on scroll opts in with the `fade-up` class; `useFadeUp()` returns a
+ref to place on the section root, and its `IntersectionObserver` adds `visible`.
+
+```typescript
+const ref = useFadeUp();
+return (
+    <div ref={ref}>
+        <h2 className="fade-up">Heading</h2>
+        <p className="fade-up delay-1">Body</p>
+    </div>
+);
+```
+
+`prefers-reduced-motion: reduce` is handled centrally in `src/styles/portfolio.css` — it
+forces `.fade-up` to its final state. Never gate *content visibility* on JavaScript alone.
 
 ## State Management
 
@@ -382,143 +323,6 @@ import { Button } from "@/components/base/buttons/button";
 <Button color="primary-destructive" iconLeading={Trash02}>Delete</Button>
 ```
 
-### Input
-
-Text input component with extensive customization options.
-
-**Import:**
-
-```typescript
-import { Input } from "@/components/base/input/input";
-import { InputGroup } from "@/components/base/input/input-group";
-```
-
-**Common Props:**
-
-- `size`: `"sm" | "md" | "lg"` - Input size (default: `"md"`)
-- `label`: `string` - Field label
-- `placeholder`: `string` - Placeholder text
-- `hint`: `string` - Helper text below input
-- `tooltip`: `string` - Tooltip text for help icon
-- `icon`: `FC` - Leading icon component
-- `isRequired`: `boolean` - Required field indicator
-- `isDisabled`: `boolean` - Disabled state
-- `isInvalid`: `boolean` - Error state
-
-**Examples:**
-
-```typescript
-// Basic input with label
-<Input label="Email" placeholder="olivia@untitledui.com" />
-
-// With icon and validation
-<Input
-  icon={Mail01}
-  label="Email"
-  isRequired
-  isInvalid
-  hint="Please enter a valid email"
-/>
-
-// Input group with button
-<InputGroup label="Website" trailingAddon={<Button>Copy</Button>}>
-  <InputBase placeholder="www.untitledui.com" />
-</InputGroup>
-```
-
-### Select
-
-Dropdown selection component with search and multi-select capabilities.
-
-**Import:**
-
-```typescript
-import { MultiSelect } from "@/components/base/select/multi-select";
-import { Select } from "@/components/base/select/select";
-```
-
-**Common Props:**
-
-- `size`: `"sm" | "md" | "lg"` - Select size (default: `"md"`)
-- `label`: `string` - Field label
-- `placeholder`: `string` - Placeholder text
-- `hint`: `string` - Helper text
-- `tooltip`: `string` - Tooltip text
-- `items`: `Array` - Data items to display
-- `isRequired`: `boolean` - Required field
-- `isDisabled`: `boolean` - Disabled state
-- `icon`: `FC | ReactNode` - Icon for placeholder
-
-**Item Props:**
-
-- `id`: `string` - Unique identifier
-- `supportingText`: `string` - Secondary text
-- `icon`: `FC | ReactNode` - Leading icon
-- `avatarUrl`: `string` - Avatar image URL
-- `isDisabled`: `boolean` - Disabled item
-
-**Examples:**
-
-```typescript
-// Basic select
-<Select label="Team member" placeholder="Select member" items={users}>
-  {(item) => (
-    <Select.Item id={item.id} supportingText={item.email}>
-      {item.name}
-    </Select.Item>
-  )}
-</Select>
-
-// With search (ComboBox)
-<Select.ComboBox label="Search" placeholder="Search users" items={users}>
-  {(item) => <Select.Item id={item.id}>{item.name}</Select.Item>}
-</Select.ComboBox>
-
-// With avatars
-<Select items={users} icon={User01}>
-  {(item) => (
-    <Select.Item avatarUrl={item.avatar} supportingText={item.role}>
-      {item.name}
-    </Select.Item>
-  )}
-</Select>
-```
-
-### Checkbox
-
-Checkbox component for boolean selections.
-
-**Import:**
-
-```typescript
-import { Checkbox } from "@/components/base/checkbox/checkbox";
-```
-
-**Common Props:**
-
-- `size`: `"sm" | "md"` - Checkbox size (default: `"sm"`)
-- `label`: `string` - Checkbox label
-- `hint`: `string` - Helper text below label
-- `isSelected`: `boolean` - Checked state
-- `isDisabled`: `boolean` - Disabled state
-- `isIndeterminate`: `boolean` - Indeterminate state
-
-**Examples:**
-
-```typescript
-// Basic checkbox
-<Checkbox label="Remember me" />
-
-// With hint text
-<Checkbox
-  label="Remember me"
-  hint="Save my login details for next time"
-/>
-
-// Controlled state
-<Checkbox isSelected={checked} onChange={setChecked} />
-```
-
 ### Badge
 
 Badge components for status indicators and labels.
@@ -546,94 +350,6 @@ import { Badge, BadgeWithDot, BadgeWithIcon } from "@/components/base/badges/bad
 
 // With icon
 <BadgeWithIcon iconLeading={ArrowUp} color="success">12%</BadgeWithIcon>
-```
-
-### Avatar
-
-Avatar component for user profile images.
-
-**Import:**
-
-```typescript
-import { Avatar } from "@/components/base/avatar/avatar";
-import { AvatarLabelGroup } from "@/components/base/avatar/avatar-label-group";
-```
-
-**Common Props:**
-
-- `size`: `"xs" | "sm" | "md" | "lg" | "xl" | "2xl"` - Avatar size (note: `"xxs"` was removed in v8)
-- `src`: `string` - Image URL
-- `alt`: `string` - Alt text for accessibility
-- `initials`: `string` - Text initials when no image
-- `icon`: `FC` - Icon when no image
-- `status`: `"online" | "offline"` - Status indicator
-- `verified`: `boolean` - Verification badge
-- `badge`: `ReactNode` - Custom badge element
-
-**Examples:**
-
-```typescript
-// Basic avatar
-<Avatar src="/avatar.jpg" alt="User Name" size="md" />
-
-// With status
-<Avatar src="/avatar.jpg" status="online" />
-
-// With initials fallback
-<Avatar initials="OR" size="lg" />
-
-// Label group
-<AvatarLabelGroup
-  src="/avatar.jpg"
-  title="Olivia Rhye"
-  subtitle="olivia@untitledui.com"
-  size="md"
-/>
-```
-
-### FeaturedIcon
-
-Decorative icon component with themed backgrounds for emphasis and visual hierarchy.
-
-**Import:**
-
-```typescript
-import { FeaturedIcon } from "@/components/foundations/featured-icon/featured-icon";
-```
-
-**Common Props:**
-
-- `icon`: `FC` - Icon component to display (required)
-- `size`: `"sm" | "md" | "lg" | "xl"` - Icon container size
-- `color`: `"brand" | "gray" | "error" | "warning" | "success"` - Color scheme
-- `theme`: `"light" | "gradient" | "dark" | "modern" | "modern-neue" | "outline"` - Visual theme style
-
-**Theme Styles:**
-
-- `light`: Subtle background with colored icon
-- `gradient`: Gradient background effect
-- `dark`: Solid colored background with white icon
-- `modern`: Contemporary gray styling (gray color only)
-- `modern-neue`: Alternative modern style (gray color only)
-- `outline`: Border style with transparent background
-
-**Examples:**
-
-```typescript
-// Basic featured icon
-<FeaturedIcon icon={CheckCircle} color="success" theme="light" size="lg" />
-
-// With gradient theme
-<FeaturedIcon icon={AlertCircle} color="warning" theme="gradient" size="xl" />
-
-// Dark theme for emphasis
-<FeaturedIcon icon={XCircle} color="error" theme="dark" size="md" />
-
-// Outline style
-<FeaturedIcon icon={InfoCircle} color="brand" theme="outline" size="lg" />
-
-// Modern styles (IMPORTANT: gray only)
-<FeaturedIcon icon={Settings} color="gray" theme="modern" size="lg" />
 ```
 
 ### Link
@@ -679,7 +395,9 @@ import { Button } from "@/components/base/buttons/button";
 1. **Size Variants**: Most components support `sm`, `md`, `lg` sizes
 2. **State Props**: `isDisabled`, `isLoading`, `isInvalid`, `isRequired` are common
 3. **Icon Support**: Components accept icons as both components (`Icon`) or elements (`<Icon />`)
-4. **Compound Components**: Complex components use dot notation (e.g., `Select.Item`, `Select.ComboBox`)
+4. **Compound Components**: Where a component has sub-parts, the Untitled UI kit exposes them
+   with dot notation (`Select.Item`). None of the components currently vendored here use that
+   pattern — expect it if you copy in a larger one.
 5. **Accessibility**: All components include proper ARIA attributes and keyboard support
 
 ### Icon Usage

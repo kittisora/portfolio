@@ -156,7 +156,7 @@ export function ServicesPage() {
 
     return (
         <div ref={ref} className="bg-primary text-primary">
-            <main>
+            <div>
                 {/* Hero */}
                 <section id="services-hero" className="scroll-mt-24 bg-secondary pt-36 pb-16 md:pt-44 md:pb-24">
                     <div className="mx-auto w-full max-w-container px-4 md:px-8">
@@ -385,7 +385,7 @@ export function ServicesPage() {
                         </div>
                     </div>
                 </section>
-            </main>
+            </div>
         </div>
     );
 }
