@@ -79,11 +79,13 @@ export function ArrowMarketPage() {
                     </div>
 
                     <Image
-                        src="/arrowmarket/position-builder.png"
+                        src="/arrowmarket/position-builder.webp"
                         alt="Arrow Markets position builder showing a Long Put with leverage, max profit/risk, and a payoff chart"
                         width={1200}
                         height={675}
                         priority
+                        fetchPriority="high"
+                        sizes="(min-width: 1280px) 1280px, 100vw"
                         className="fade-up order-first h-60 w-screen max-w-none object-cover md:order-1 md:h-180 md:w-full md:max-w-full"
                     />
                 </div>
@@ -145,12 +147,25 @@ export function ArrowMarketPage() {
                         </p>
 
                         <figure className="fade-up not-prose my-8 md:my-12">
+                            {/*
+                              * width/height reserve the 2560x1680 box so the 2.4 MB
+                              * clip cannot shift the article as it loads.
+                              * `controls` is required, not cosmetic: a looping
+                              * autoplay runs well past 5s, so WCAG 2.2.2 needs a
+                              * pause mechanism. `preload="none"` keeps the file off
+                              * the critical path — it sits far below the fold.
+                              */}
                             <video
                                 autoPlay
                                 muted
                                 loop
                                 playsInline
-                                className="w-full rounded-2xl"
+                                controls
+                                preload="none"
+                                width={2560}
+                                height={1680}
+                                aria-label="Arrow Markets Lite Mode walkthrough"
+                                className="h-auto w-full rounded-2xl"
                             >
                                 <source src="/arrowmarket/lite-mode.mp4" type="video/mp4" />
                             </video>
@@ -186,7 +201,7 @@ export function ArrowMarketPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/arrowmarket/position-builder.png"
+                                src="/arrowmarket/position-builder.webp"
                                 alt="Long Put position card with leverage, max profit and risk, an expected P/L payoff chart, and a strategy rail"
                                 width={1200}
                                 height={675}
@@ -223,7 +238,7 @@ export function ArrowMarketPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/arrowmarket/options-chain.png"
+                                src="/arrowmarket/options-chain.webp"
                                 alt="Pro Mode options chain with CALL/PUT tabs, expiry, and columns for Strike, Delta, Theta, Gamma, Open Interest, Leverage, Sell and Buy"
                                 width={1200}
                                 height={675}
@@ -258,7 +273,7 @@ export function ArrowMarketPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/arrowmarket/spread.png"
+                                src="/arrowmarket/spread.webp"
                                 alt="Arrow Markets trade builder showing a spread being configured before on-chain settlement"
                                 width={1200}
                                 height={675}

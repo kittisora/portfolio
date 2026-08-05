@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { UniqueLeveragePage } from "./unique-leverage-page";
 
-// hero.jpg is a 1920x2226 portrait — social cards crop it badly.
-// docs.png is the widest referenced asset for this case study.
-const OG_IMAGE = "/uniqueleverage/docs.png";
+// hero is a 1920x2226 portrait — social cards crop it badly.
+// docs is the widest referenced asset for this case study.
+const OG_IMAGE = "/uniqueleverage/docs.webp";
 
 export const metadata: Metadata = {
     title: "Unique Leverage - Case Study",

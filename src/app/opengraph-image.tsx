@@ -4,7 +4,7 @@ import { AUTHOR_NAME, SITE_URL } from "@/lib/site";
 /**
  * Site-wide social card, generated at build time.
  *
- * Replaces the previous `/photo.png` reference, which is a 1122x1402 portrait
+ * Replaces the previous `/photo.png` reference, which was a 1122x1402 portrait
  * shot declared as 1200x630 — every social platform cropped it incorrectly.
  * Routes that set their own `openGraph.images` (the case studies) override this.
  */

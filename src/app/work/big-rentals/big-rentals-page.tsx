@@ -87,11 +87,13 @@ export function BigRentalsPage() {
                     </div>
 
                     <Image
-                        src="/bigrentals/hero.png"
+                        src="/bigrentals/hero.webp"
                         alt="BigRentals trailer rental marketplace homepage"
                         width={1200}
                         height={675}
                         priority
+                        fetchPriority="high"
+                        sizes="(min-width: 1280px) 1280px, 100vw"
                         className="fade-up order-first h-60 w-screen max-w-none object-cover md:order-1 md:h-180 md:w-full md:max-w-full"
                     />
                 </div>
@@ -142,7 +144,7 @@ export function BigRentalsPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/bigrentals/hero.png"
+                                src="/bigrentals/hero.webp"
                                 alt="BigRentals homepage with location and date search bar and trailer category tabs"
                                 width={1200}
                                 height={675}
@@ -180,7 +182,7 @@ export function BigRentalsPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/bigrentals/listings.png"
+                                src="/bigrentals/listings.webp"
                                 alt="BigRentals listing results grid with trailer cards"
                                 width={1200}
                                 height={675}
@@ -194,7 +196,7 @@ export function BigRentalsPage() {
 
                         <figure className="fade-up not-prose my-8 md:my-12">
                             <Image
-                                src="/bigrentals/detail.png"
+                                src="/bigrentals/detail.webp"
                                 alt="BigRentals trailer detail page with specs and booking"
                                 width={1200}
                                 height={675}

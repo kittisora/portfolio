@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { OgedgePage } from "./ogedge-page";
 
-const OG_IMAGE = "/ogedge/hero.png";
+const OG_IMAGE = "/ogedge/hero.webp";
 
 export const metadata: Metadata = {
     title: "OGEdge - Case Study",

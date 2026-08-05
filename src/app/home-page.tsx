@@ -1,11 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { Badge } from "@/components/base/badges/badges";
-import { InteractiveGrid } from "@/components/portfolio/interactive-grid";
 import { Button } from "@/components/base/buttons/button";
 import { ContraHireButton } from "@/components/portfolio/contra-hire-button";
 import GitHub from "@/components/foundations/social-icons/github";
@@ -13,6 +13,16 @@ import LinkedIn from "@/components/foundations/social-icons/linkedin";
 import Facebook from "@/components/foundations/social-icons/facebook";
 import { useFadeUp } from "@/hooks/use-fade-up";
 import { navigateWithTransition } from "@/utils/navigate-with-transition";
+
+/**
+ * The hero grid pulls in all of three.js (~137 KB gzipped) for a decorative,
+ * aria-hidden WebGL background. Loading it lazily keeps it out of the homepage's
+ * initial script set; `ssr: false` because it only ever renders to a canvas.
+ */
+const InteractiveGrid = dynamic(
+    () => import("@/components/portfolio/interactive-grid").then((m) => m.InteractiveGrid),
+    { ssr: false },
+);
 
 const projects = [
     {
@@ -25,7 +35,7 @@ const projects = [
     },
     {
         slug: "site-auditor",
-        image: "/siteautitor/report-perf.png",
+        image: "/siteautitor/report-perf.webp",
         tag: "AI · Full-Stack SaaS · Web Intelligence",
         title: "Site Auditor",
         description:
@@ -33,7 +43,7 @@ const projects = [
     },
     {
         slug: "unique-leverage",
-        image: "/uniqueleverage/hero.jpg",
+        image: "/uniqueleverage/hero.webp",
         tag: "AI · Automation · Full-Stack SaaS",
         title: "Unique Leverage",
         description:
@@ -41,7 +51,7 @@ const projects = [
     },
     {
         slug: "arrow-market",
-        image: "/arrowmarket/position-builder.png",
+        image: "/arrowmarket/position-builder.webp",
         tag: "Web3 · Frontend · DeFi",
         title: "Arrow Markets",
         description:
@@ -49,7 +59,7 @@ const projects = [
     },
     {
         slug: "ogedge",
-        image: "/ogedge/hero.png",
+        image: "/ogedge/hero.webp",
         tag: "Full-Stack · E-commerce · Web",
         title: "OGEdge",
         description:
@@ -57,7 +67,7 @@ const projects = [
     },
     {
         slug: "big-rentals",
-        image: "/bigrentals/hero.png",
+        image: "/bigrentals/hero.webp",
         tag: "Full-Stack · Marketplace · Web",
         title: "Big Rentals",
         description:
@@ -208,19 +218,14 @@ export function HomePage() {
                                 ref={(el) => {
                                     if (el) cardRefs.current.set(project.slug, el);
                                 }}
-                                onClick={() =>
-                                    navigateWithTransition(
-                                        router,
-                                        `/work/${project.slug}`,
-                                        cardRefs.current.get(project.slug),
-                                    )
-                                }
-                                className="fade-up group relative cursor-pointer overflow-hidden rounded-xl bg-primary_alt shadow-xs ring-1 ring-secondary ring-inset transition-all duration-[350ms] ease-out hover:-translate-y-1.5 hover:shadow-lg"
+                                className="fade-up group relative overflow-hidden rounded-xl bg-primary_alt shadow-xs ring-1 ring-secondary ring-inset transition-all duration-[350ms] ease-out hover:-translate-y-1.5 hover:shadow-lg focus-within:ring-2 focus-within:ring-brand"
                             >
                                 <div className="h-[220px] overflow-hidden">
                                     <Image
                                         src={project.image}
-                                        alt={`${project.title} preview`}
+                                        // Decorative: the <h3> and description below
+                                        // already name and describe the project.
+                                        alt=""
                                         width={400}
                                         height={220}
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
@@ -236,12 +241,39 @@ export function HomePage() {
                                     <p className="text-sm leading-[1.65] text-tertiary">
                                         {project.description}
                                     </p>
+                                    {/*
+                                      * The link — not the <article> — is the click
+                                      * target. `after:inset-0` stretches its hit area
+                                      * over the whole card, so the card stays clickable
+                                      * while keyboard, middle-click and cmd/ctrl-click
+                                      * all keep native anchor behaviour. Modified
+                                      * clicks bail out before preventDefault so
+                                      * "open in new tab" works.
+                                      */}
                                     <Link
                                         href={`/work/${project.slug}`}
-                                        onClick={(e) => e.preventDefault()}
-                                        className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-secondary transition-all duration-200 group-hover:gap-2.5 group-hover:underline"
+                                        onClick={(e) => {
+                                            if (
+                                                e.metaKey ||
+                                                e.ctrlKey ||
+                                                e.shiftKey ||
+                                                e.altKey ||
+                                                e.button !== 0
+                                            ) {
+                                                return;
+                                            }
+                                            e.preventDefault();
+                                            navigateWithTransition(
+                                                router,
+                                                `/work/${project.slug}`,
+                                                cardRefs.current.get(project.slug),
+                                            );
+                                        }}
+                                        className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-secondary transition-all duration-200 group-hover:gap-2.5 group-hover:underline after:absolute after:inset-0 after:content-['']"
                                     >
-                                        View Case Study →
+                                        View Case Study
+                                        <span aria-hidden="true">→</span>
+                                        <span className="sr-only">: {project.title}</span>
                                     </Link>
                                 </div>
                             </article>
@@ -333,7 +365,7 @@ export function HomePage() {
                     <div className="grid grid-cols-1 items-start gap-16 md:grid-cols-[1fr_1.4fr] md:gap-20">
                         <div className="fade-up sticky top-[100px] max-md:static max-md:mx-auto max-md:max-w-[320px]">
                             <Image
-                                src="/photo.png"
+                                src="/photo.webp"
                                 alt="Kittipong Sorasuchart - AI Specialist and DevOps Engineer"
                                 width={400}
                                 height={533}

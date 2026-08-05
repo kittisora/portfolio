@@ -137,11 +137,13 @@ export function UniqueLeveragePage() {
                     </div>
 
                     <Image
-                        src="/uniqueleverage/hero.jpg"
+                        src="/uniqueleverage/hero.webp"
                         alt="Unique Leverage landing page - automation for salespeople"
                         width={1200}
                         height={1600}
                         priority
+                        fetchPriority="high"
+                        sizes="(min-width: 1280px) 1280px, 100vw"
                         className="fade-up order-first h-60 w-screen max-w-none object-cover md:order-1 md:h-180 md:w-full md:max-w-full"
                     />
                 </div>
@@ -195,7 +197,7 @@ export function UniqueLeveragePage() {
 
                         <figure className="fade-up">
                             <Image
-                                src="/uniqueleverage/features.jpg"
+                                src="/uniqueleverage/features.webp"
                                 alt="Marketplace listing automation and inventory feed connections"
                                 width={1200}
                                 height={1500}
@@ -249,7 +251,7 @@ export function UniqueLeveragePage() {
 
                         <figure className="fade-up">
                             <Image
-                                src="/uniqueleverage/3.jpg"
+                                src="/uniqueleverage/3.webp"
                                 alt="AI Ad Wizard generating per-vehicle ad copy and creative"
                                 width={1200}
                                 height={800}
@@ -293,7 +295,7 @@ export function UniqueLeveragePage() {
 
                         <figure className="fade-up">
                             <Image
-                                src="/uniqueleverage/4.jpg"
+                                src="/uniqueleverage/4.webp"
                                 alt="Marketplace automation posting, renewing, and de-listing inventory"
                                 width={1200}
                                 height={800}
@@ -329,7 +331,7 @@ export function UniqueLeveragePage() {
 
                         <figure className="fade-up">
                             <Image
-                                src="/uniqueleverage/docs.png"
+                                src="/uniqueleverage/docs.webp"
                                 alt="Unique Leverage platform documentation and Business Manager"
                                 width={1200}
                                 height={750}

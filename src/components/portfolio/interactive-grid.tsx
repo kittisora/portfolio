@@ -116,7 +116,7 @@ export function InteractiveGrid({ className }: { className?: string }) {
         const pointer = new THREE.Vector2(-9999, -9999);
         const hitPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
         const hitPoint = new THREE.Vector3();
-        let cursorWorld = new THREE.Vector3(-9999, 0, -9999);
+        const cursorWorld = new THREE.Vector3(-9999, 0, -9999);
 
         const applyTheme = () => {
             isDark = document.documentElement.classList.contains("dark-mode");
@@ -141,12 +141,14 @@ export function InteractiveGrid({ className }: { className?: string }) {
             pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
             raycaster.setFromCamera(pointer, camera);
             if (raycaster.ray.intersectPlane(hitPlane, hitPoint)) {
-                cursorWorld = hitPoint.clone();
+                // Mutate in place: this runs on every pointer event, and
+                // `.clone()` allocated a fresh Vector3 each time.
+                cursorWorld.copy(hitPoint);
             }
         };
 
         const onMouseLeave = () => {
-            cursorWorld = new THREE.Vector3(-9999, 0, -9999);
+            cursorWorld.set(-9999, 0, -9999);
         };
 
         if (heroContainer) {
@@ -165,6 +167,7 @@ export function InteractiveGrid({ className }: { className?: string }) {
 
         const startTime = Date.now();
         let rafId = 0;
+        let running = false;
 
         const animate = () => {
             rafId = requestAnimationFrame(animate);
@@ -212,10 +215,50 @@ export function InteractiveGrid({ className }: { className?: string }) {
             renderer.render(scene, camera);
         };
 
-        animate();
+        const startLoop = () => {
+            if (running) return;
+            running = true;
+            animate();
+        };
+
+        const stopLoop = () => {
+            running = false;
+            // Cancelling a stale or already-cancelled handle is a spec no-op,
+            // so this is safe to call unconditionally.
+            cancelAnimationFrame(rafId);
+        };
+
+        // Pause the WebGL loop while the hero is off screen.
+        // efficient-background-processing, "Fallback strategies": IntersectionObserver
+        // with rootMargin '200px'. The guide's preferred
+        // `contentvisibilityautostatechange` route is not usable here because
+        // defer-rendering-heavy-content mandates "DO NOT apply this property to
+        // elements within the initial, above-the-fold viewport" and this grid is
+        // the above-the-fold hero.
+        const visibility = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        startLoop();
+                    } else {
+                        stopLoop();
+                    }
+                }
+            },
+            { rootMargin: "200px" },
+        );
+        visibility.observe(el);
+
+        // IntersectionObserver delivers its first record asynchronously, after the
+        // next rendering update — not synchronously from observe(). Start here so
+        // frame one paints; the guard in startLoop() makes the observer's first
+        // "intersecting" record a no-op, and if the hero is already scrolled past
+        // (restored scroll position, hash deep link) the observer stops it at once.
+        startLoop();
 
         cleanupRef.current = () => {
-            cancelAnimationFrame(rafId);
+            visibility.disconnect();
+            stopLoop();
             window.removeEventListener("resize", onResize);
             if (heroContainer) {
                 heroContainer.removeEventListener("mousemove", onMouseMove);

@@ -7,7 +7,7 @@ import { Badge } from "@/components/base/badges/badges";
 import { Button } from "@/components/base/buttons/button";
 import { useFadeUp } from "@/hooks/use-fade-up";
 
-const HERO_IMG = "/ogedge/hero.png";
+const HERO_IMG = "/ogedge/hero.webp";
 
 const tags = ["Next.js", "TypeScript", "Node.js", "Stripe", "PostgreSQL", "Tailwind", "Redis", "REST API"];
 
@@ -102,6 +102,8 @@ export function OgedgePage() {
                         width={1200}
                         height={675}
                         priority
+                        fetchPriority="high"
+                        sizes="(min-width: 1280px) 1280px, 100vw"
                         className="fade-up order-first h-60 w-screen max-w-none object-cover md:order-1 md:h-180 md:w-full md:max-w-full"
                     />
                 </div>
@@ -164,7 +166,7 @@ export function OgedgePage() {
 
                         <div className="fade-up not-prose my-8 md:my-12">
                             <Figure
-                                src="/ogedge/games.png"
+                                src="/ogedge/games.webp"
                                 alt="OGEdge game catalog and selection view"
                                 caption="The catalog view - every supported title, driven by the same content schema."
                             />
@@ -189,7 +191,7 @@ export function OgedgePage() {
 
                         <div className="fade-up not-prose my-8 md:my-12">
                             <Figure
-                                src="/ogedge/valorant.png"
+                                src="/ogedge/valorant.webp"
                                 alt="Valorant boosting configurator with live event countdown"
                                 caption="Valorant boosting - a seasonal Act banner and live event countdown timers driving urgency above the configurator."
                             />
@@ -220,7 +222,7 @@ export function OgedgePage() {
 
                         <div className="fade-up not-prose my-8 md:my-12">
                             <Figure
-                                src="/ogedge/services.png"
+                                src="/ogedge/services.webp"
                                 alt="OGEdge services and packages selection"
                                 caption="Service packages feed straight into a Stripe-powered, multi-currency checkout."
                             />
@@ -234,7 +236,7 @@ export function OgedgePage() {
 
                         <div className="fade-up not-prose my-8 md:my-12">
                             <Figure
-                                src="/ogedge/checkout.png"
+                                src="/ogedge/checkout.webp"
                                 alt="OGEdge cart and checkout view"
                                 caption="Cart and checkout - clear totals, currency, and what happens after payment."
                             />
@@ -264,7 +266,7 @@ export function OgedgePage() {
 
                         <div className="fade-up not-prose my-8 md:my-12">
                             <Figure
-                                src="/ogedge/coaching.png"
+                                src="/ogedge/coaching.webp"
                                 alt="OGEdge coaching options"
                                 caption="Coaching packages - another service type built from the same flexible model."
                             />
