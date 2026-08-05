@@ -2,7 +2,10 @@ name: CI
 
 on:
     push:
-        branches: [master, staging]
+        # master pushes are already validated by the `validate` job in
+        # deploy.yml before it ships; running the same checks here too would
+        # just duplicate every production run.
+        branches: [staging]
     pull_request:
         branches: [master, staging]
 
