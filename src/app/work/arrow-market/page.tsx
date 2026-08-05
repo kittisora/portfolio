@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { ArrowMarketPage } from "./arrow-market-page";
 
-const OG_IMAGE = "/arrowmarket/position-builder.png";
+const OG_IMAGE = "/arrowmarket/position-builder.webp";
 
 export const metadata: Metadata = {
     title: "Arrow Markets - Case Study",

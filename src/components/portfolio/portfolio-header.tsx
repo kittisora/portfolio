@@ -27,6 +27,7 @@ const defaultNavItems: NavItem[] = [
 
 export function PortfolioHeader({ items = defaultNavItems, className }: PortfolioHeaderProps) {
     const headerRef = useRef<HTMLElement>(null);
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const closeMobile = useCallback(() => setMobileOpen(false), []);
@@ -34,6 +35,20 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
     useEffect(() => {
         document.body.style.overflow = mobileOpen ? "hidden" : "";
         return () => { document.body.style.overflow = ""; };
+    }, [mobileOpen]);
+
+    // Escape must dismiss the overlay — it covers the viewport and traps the
+    // pointer, so without this a keyboard user has no way out.
+    useEffect(() => {
+        if (!mobileOpen) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setMobileOpen(false);
+                menuButtonRef.current?.focus();
+            }
+        };
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
     }, [mobileOpen]);
 
     return (
@@ -58,6 +73,8 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
                                     <Image
                                         src={logoMini}
                                         alt="Kittipong Sorasuchart"
+                                        width={40}
+                                        height={40}
                                         className="size-full object-cover"
                                     />
                                 </div>
@@ -65,7 +82,7 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
                             </Link>
 
                             {/* Desktop navigation */}
-                            <nav className="max-md:hidden">
+                            <nav aria-label="Primary" className="max-md:hidden">
                                 <ul className="flex items-center gap-0.5">
                                     {items.map((navItem) => (
                                         <li key={navItem.label}>
@@ -95,9 +112,14 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
 
                         {/* Mobile hamburger */}
                         <button
+                            ref={menuButtonRef}
                             type="button"
-                            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                            // The label stays constant: `aria-expanded` already
+                            // conveys open/closed, and changing both makes screen
+                            // readers announce the state twice.
+                            aria-label="Menu"
                             aria-expanded={mobileOpen}
+                            aria-controls="mobile-menu"
                             onClick={() => setMobileOpen((v) => !v)}
                             className="ml-auto cursor-pointer rounded-lg p-2 transition duration-100 ease-linear hover:bg-black/8 dark:hover:bg-white/10 md:hidden"
                         >
@@ -135,6 +157,7 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
 
             {/* Mobile full-screen menu — always mounted for reliable transitions */}
             <div
+                id="mobile-menu"
                 className="fixed inset-0 z-40 flex flex-col bg-bg-primary/80 pt-16 backdrop-blur-xl backdrop-saturate-150 md:hidden"
                 style={{
                     transition: `transform ${mobileOpen ? "500ms" : "300ms"} ease-out, opacity ${mobileOpen ? "500ms" : "300ms"} ease-out, visibility 0ms ${mobileOpen ? "0ms" : "300ms"}`,
@@ -144,7 +167,7 @@ export function PortfolioHeader({ items = defaultNavItems, className }: Portfoli
                     pointerEvents: mobileOpen ? "auto" : "none",
                 }}
             >
-                <nav className="flex flex-1 flex-col">
+                <nav aria-label="Mobile" className="flex flex-1 flex-col">
                     <ul className="flex flex-col gap-0.5 px-4 pt-6">
                         {items.map((navItem, i) => (
                             <li

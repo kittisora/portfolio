@@ -96,15 +96,19 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    // Font variables must live on <html>, not <body>. `--font-body` and
+    // `--font-serif` are declared at `:root` (= <html>) and substitute
+    // `var(--font-inter)` there — if the variable is only defined on <body> it is
+    // not in scope, the var() falls back to the literal "Inter" string, and
+    // next/font's metric-matched fallback face (the thing that prevents CLS on
+    // font swap) is silently never used.
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body
-                className={cx(
-                    inter.variable,
-                    playfair.variable,
-                    "bg-primary text-primary antialiased",
-                )}
-            >
+        <html
+            lang="en"
+            suppressHydrationWarning
+            className={cx(inter.variable, playfair.variable)}
+        >
+            <body className="bg-primary text-primary antialiased">
                 <RouteProvider>
                     <Theme>
                         <a
@@ -114,8 +118,15 @@ export default function RootLayout({
                             Skip to content
                         </a>
                         <PortfolioHeader />
-                        {/* Single `main` landmark for every route — page components must not add their own. */}
-                        <main id="main">{children}</main>
+                        {/*
+                          * Single `main` landmark for every route — page components must not
+                          * add their own. `tabIndex={-1}` is required: without it the skip
+                          * link moves the scroll position but not focus, so the next Tab
+                          * returns to the header nav and the link does nothing useful.
+                          */}
+                        <main id="main" tabIndex={-1}>
+                            {children}
+                        </main>
                         <Footer />
                     </Theme>
                 </RouteProvider>

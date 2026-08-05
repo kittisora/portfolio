@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { SiteAuditorPage } from "./site-auditor-page";
 
-const OG_IMAGE = "/siteautitor/report-perf.png";
+const OG_IMAGE = "/siteautitor/report-perf.webp";
 
 export const metadata: Metadata = {
     title: "Site Auditor - Case Study",

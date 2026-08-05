@@ -42,7 +42,7 @@ Requires **Node.js 20.9+**. This project uses **npm** — `package-lock.json` is
 | Components | React Aria Components (+ a few Untitled UI primitives)   |
 | Icons      | `@untitledui/icons`                                      |
 | Theming    | `next-themes` (light/dark, system-aware)                 |
-| 3D         | `three` — the interactive hero grid                      |
+| 3D         | `three` — interactive hero grid, lazy-loaded off the initial bundle |
 | Motion     | CSS transitions + `IntersectionObserver` scroll reveals  |
 | Fonts      | Inter + Playfair Display via `next/font/google`          |
 
@@ -110,7 +110,9 @@ nothing imports, it does not belong here.
 
 **Adding a case study** — create `src/app/work/<slug>/`, add the slug to `CASE_STUDY_SLUGS` in `src/lib/site.ts` (this is what puts it in the sitemap), and add an entry to the `projects` array in `src/app/home-page.tsx`.
 
-**Motion.** Scroll reveals use an `IntersectionObserver` (`use-fade-up.ts`) that adds a `.visible` class. `prefers-reduced-motion: reduce` is honoured in `src/styles/portfolio.css` — reduced-motion users get the content immediately, with no transition.
+**Motion.** Scroll reveals use an `IntersectionObserver` (`use-fade-up.ts`) that adds a `.visible` class. `prefers-reduced-motion: reduce` is honoured in `src/styles/portfolio.css` — reduced-motion users get the content immediately, with no transition. A `@media (scripting: none)` guard makes `.fade-up` content visible when JS never runs, so the page can never render blank.
+
+**Performance budget.** Images in `public/` are WebP and must stay there — the site is deployable to a static host where the Next image optimizer never runs, so source weight *is* delivered weight. three.js is behind `next/dynamic` and must not be imported eagerly; its WebGL loop pauses when the hero scrolls out of view. LCP images carry both `priority` and `fetchPriority="high"` (Next's `priority` alone does not emit the latter).
 
 ## Customization
 

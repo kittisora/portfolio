@@ -1,7 +1,7 @@
 export const SITE_URL = "https://kittipong.org";
 export const SITE_NAME = "Kittipong Sorasuchart";
 export const AUTHOR_NAME = "Kittipong Sorasuchart";
-export const AUTHOR_IMAGE = `${SITE_URL}/photo.png`;
+export const AUTHOR_IMAGE = `${SITE_URL}/photo.webp`;
 
 export const AUTHOR_SAME_AS = [
     "https://github.com/kittisora",

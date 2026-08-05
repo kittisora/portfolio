@@ -178,11 +178,13 @@ export function SiteAuditorPage() {
                     </div>
 
                     <Image
-                        src="/siteautitor/audit-overview.png"
+                        src="/siteautitor/audit-overview.webp"
                         alt="Site Auditor dashboard showing a six-dimension audit of bigrentals.com"
                         width={1200}
                         height={675}
                         priority
+                        fetchPriority="high"
+                        sizes="(min-width: 1280px) 1280px, 100vw"
                         className="fade-up order-first h-60 w-screen max-w-none object-cover md:order-1 md:h-180 md:w-full md:max-w-full"
                     />
                 </div>
@@ -242,7 +244,7 @@ export function SiteAuditorPage() {
 
                         <div className="fade-up not-prose">
                             <ImageFigure
-                                src="/siteautitor/audit-overview.png"
+                                src="/siteautitor/audit-overview.webp"
                                 alt="Audit overview dashboard with six score gauges and a per-page table"
                                 caption="The audit overview - six dimension gauges plus a per-page table with load times, sizes, and resource counts."
                             />
@@ -308,7 +310,7 @@ export function SiteAuditorPage() {
 
                         <div className="fade-up not-prose">
                             <ImageFigure
-                                src="/siteautitor/report.png"
+                                src="/siteautitor/report.webp"
                                 alt="Printable website audit report for bigrentals.com with six score rings"
                                 caption="The printable Website Audit Report - six score rings, 20 pages audited in 1061s, and grouped issue counts ready to hand to a client."
                             />
@@ -332,7 +334,7 @@ export function SiteAuditorPage() {
 
                         <div className="fade-up not-prose">
                             <ImageFigure
-                                src="/siteautitor/sites.png"
+                                src="/siteautitor/sites.webp"
                                 alt="Sites view listing all tracked domains with industry, last audit, and created date"
                                 caption="The Sites view - every tracked domain with industry, last audit, and created date in one place."
                             />

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SITE_NAME, caseStudyJsonLd } from "@/lib/site";
 import { BigRentalsPage } from "./big-rentals-page";
 
-const OG_IMAGE = "/bigrentals/hero.png";
+const OG_IMAGE = "/bigrentals/hero.webp";
 
 export const metadata: Metadata = {
     title: "BigRentals - Case Study",

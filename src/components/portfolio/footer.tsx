@@ -22,12 +22,14 @@ export function Footer() {
                             <Image
                                 src={logoMini}
                                 alt="Kittipong Sorasuchart"
+                                width={40}
+                                height={40}
                                 className="size-full object-cover"
                             />
                         </div>
                     </Link>
 
-                    <nav>
+                    <nav aria-label="Footer">
                         <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
                             {[
                                 { href: "/#work", label: "Works" },

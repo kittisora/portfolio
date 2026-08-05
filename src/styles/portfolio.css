@@ -80,6 +80,21 @@ div[id="hero"] {
     transform: translateY(0);
 }
 
+/*
+ * `.visible` is added by the IntersectionObserver in `use-fade-up.ts`. That
+ * makes the hidden start state above conditional on scripting: with no JS,
+ * nothing ever adds `.visible` and every `.fade-up` element on the site — 270+
+ * of them — would stay at opacity 0, rendering the page blank. Never gate
+ * content visibility on JavaScript alone.
+ */
+@media (scripting: none) {
+    .fade-up {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 .delay-1 {
     transition-delay: 0.1s;
 }
@@ -88,100 +103,6 @@ div[id="hero"] {
 }
 .delay-3 {
     transition-delay: 0.3s;
-}
-
-/* Custom cursor */
-.cursor-dot {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 8px;
-    height: 8px;
-    background: #eff0f5;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: difference;
-}
-
-.cursor-ring {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 44px;
-    height: 44px;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-        height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    mix-blend-mode: difference;
-    isolation: isolate;
-}
-
-.cursor-ring::before,
-.cursor-ring::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    border-top-color: #eff0f5;
-    border-right-color: #eff0f5;
-}
-
-.cursor-ring::before {
-    animation: spin 2.5s linear infinite;
-    opacity: 1;
-}
-
-.cursor-ring::after {
-    border-top-color: transparent;
-    border-left-color: #eff0f5;
-    border-bottom-color: #eff0f5;
-    animation: spinReverse 3.5s linear infinite;
-    opacity: 0.8;
-    inset: 4px;
-}
-
-.cursor-ring.hovered {
-    width: 70px;
-    height: 70px;
-}
-
-.cursor-ring.hovered::before {
-    animation-duration: 1s;
-    opacity: 1;
-}
-.cursor-ring.hovered::after {
-    animation-duration: 1.4s;
-    inset: 8px;
-    opacity: 0.9;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-@keyframes spinReverse {
-    from {
-        transform: rotate(360deg);
-    }
-    to {
-        transform: rotate(0deg);
-    }
-}
-
-@media (max-width: 768px) {
-    .cursor-dot,
-    .cursor-ring {
-        display: none;
-    }
 }
 
 /* Case study shared styles */
@@ -331,8 +252,8 @@ div[id="hero"] {
 
 /* ---------------------------------------------------------------------------
    Reduced motion (WCAG 2.3.3)
-   Scroll reveals, decorative spinners, smooth scrolling and the work-card view
-   transition are all motion-heavy. Honour the user's OS-level preference:
+   Scroll reveals, smooth scrolling and the work-card view transition are all
+   motion-heavy. Honour the user's OS-level preference:
    content must still be fully visible, so `.fade-up` resolves to its final
    state rather than staying at opacity 0.
    --------------------------------------------------------------------------- */
