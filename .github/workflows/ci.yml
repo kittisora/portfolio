@@ -31,11 +31,14 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Typecheck
-              run: npm run typecheck
-
             - name: Lint
               run: npm run lint
 
+            # Build first: `next-env.d.ts` is gitignored, and it declares the
+            # image module types used by static image imports. tsc before the
+            # build fails with TS2307 on a fresh checkout.
             - name: Build
               run: npm run build
+
+            - name: Typecheck
+              run: npm run typecheck

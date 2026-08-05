@@ -33,11 +33,16 @@ jobs:
             - name: Lint
               run: npm run lint
 
-            - name: Typecheck
-              run: npm run typecheck
-
+            # Build must precede typecheck. `next-env.d.ts` is gitignored, so a
+            # fresh checkout does not have it, and it is what declares the image
+            # module types behind `import logo from "./logo.png"`. Running tsc
+            # first fails with TS2307 on every static image import. `next build`
+            # regenerates the file (and type-checks as part of the build).
             - name: Build
               run: npm run build
+
+            - name: Typecheck
+              run: npm run typecheck
 
     deploy:
         name: Deploy to kittipong.org
