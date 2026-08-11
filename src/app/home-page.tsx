@@ -42,12 +42,12 @@ const projects = [
             "An AI-powered website audit platform that crawls entire sites and scores them across SEO, performance, security, UX, AI visibility, and brand health - with automated reports, outreach pipelines, and LLM-driven insights.",
     },
     {
-        slug: "unique-leverage",
-        image: "/uniqueleverage/hero.webp",
-        tag: "AI · Automation · Full-Stack SaaS",
-        title: "Unique Leverage",
+        slug: "top-ai-repos",
+        image: "/topairepos/hero.webp",
+        tag: "Open Source · Data Pipeline · Next.js",
+        title: "Top AI Repos",
         description:
-            "An automation platform for automotive dealers - AI-generated ad creative per vehicle, automated Facebook Marketplace posting, feed integrations, and a Meta Pixel tracking layer for VIN-level lead attribution.",
+            "An open-source platform indexing 25,000+ AI repositories on GitHub and scoring them on two axes - trend momentum and production-readiness quality - so you can tell what is moving from what you can actually build on.",
     },
     {
         slug: "arrow-market",

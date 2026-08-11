@@ -60,7 +60,7 @@ Every route prerenders as static content.
 | `/privacy-policy`       | Privacy policy                                                         |
 | `/work/server-monitor`  | Cloud Monitoring Dashboard — Prometheus / Grafana observability stack   |
 | `/work/site-auditor`    | Site Auditor — multi-dimension site audit platform                     |
-| `/work/unique-leverage` | Unique Leverage — AI marketing automation for car dealers              |
+| `/work/top-ai-repos`    | Top AI Repos — open-source AI repository index and scoring platform     |
 | `/work/arrow-market`    | Arrow Markets — options trading interface                              |
 | `/work/ogedge`          | OGEdge — esports coaching platform                                     |
 | `/work/big-rentals`     | BigRentals — equipment rental marketplace                              |

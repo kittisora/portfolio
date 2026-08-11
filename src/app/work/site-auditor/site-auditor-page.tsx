@@ -389,11 +389,11 @@ export function SiteAuditorPage() {
                         Next Project
                     </p>
                     <h2 className="mt-4 font-[family-name:var(--font-serif)] text-display-sm font-semibold text-primary md:mt-5 md:text-display-md">
-                        Unique Leverage -{" "}
+                        Top AI Repos -{" "}
                         <em className="text-brand-secondary italic">A different kind of build.</em>
                     </h2>
                     <div className="mt-8 flex flex-wrap justify-center gap-3 md:mt-10">
-                        <Button href="/work/unique-leverage" size="lg" iconTrailing={ArrowUpRight}>
+                        <Button href="/work/top-ai-repos" size="lg" iconTrailing={ArrowUpRight}>
                             View Case Study
                         </Button>
                         <Button href="/#work" color="secondary" size="lg">

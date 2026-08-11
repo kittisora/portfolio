@@ -17,7 +17,7 @@ export const AUTHOR_SAME_AS = [
 export const CASE_STUDY_SLUGS = [
     "server-monitor",
     "site-auditor",
-    "unique-leverage",
+    "top-ai-repos",
     "arrow-market",
     "ogedge",
     "big-rentals",
